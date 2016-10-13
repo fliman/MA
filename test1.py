@@ -1,7 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D	
+#import matplotlib.pyplot as plt
+import masolver
+#from matplotlib import cm
+#from mpl_toolkits.mplot3d import Axes3D	
 from sympy import *
 
 def qfun(z):
@@ -33,19 +34,22 @@ dera = qder1st(1.0/16.0)
 
 dera2 = qder2nd(1.0/16.0)
 
-print "result", der, dera
-print "result", (b-2.0 * a + c) / eps/eps , dera2
 
+x1 = np.arange(-0.5, 0.5, 0.02)
+x2 = np.arange(-0.5, 0.5, 0.02)
 
-x1 = np.arange(-0.5, 0.5, 0.001)
-x2 = np.arange(-0.5, 0.5, 0.001)
+mygrid=masolver.grid([-0.5, 0.5, 0.02], [-0.5, 0.5, 0.02])
 
-fig = plt.figure()
-ax = fig.gca(projection='3d')
+#fig = plt.figure()
+#ax = fig.gca(projection='3d')
 X, Y = np.meshgrid(x1, x2)
-f=func(x1,x2)
-surf = ax.plot_surface(X, Y, f, rstride=1, cstride=1, cmap=cm.coolwarm,
-                       linewidth=0, antialiased=False)
+f=func(X,Y)
+#surf = ax.plot_surface(X, Y, f, rstride=1, cstride=1, cmap=cm.coolwarm,
+#                       linewidth=0, antialiased=False)
 
-plt.show()
+ma = masolver.MASolver(mygrid)
+ma.printInfo()
+ma.solve()
+
+#plt.show()
 
